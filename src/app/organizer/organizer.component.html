@@ -1,1 +1,31 @@
-<p>organizer works!</p>
+<section>
+  <header>
+    Organizer:
+    <strong>{{ dateService.date | async | moment: "DD.MM.YYYY" }}</strong>
+    <hr />
+  </header>
+
+  <main>
+    <ul>
+      <li class="task">
+        <span>
+          <strong>1</strong>
+          sdfsdf
+        </span>
+        <button class="btn btn-primary">Remove</button>
+      </li>
+    </ul>
+  </main>
+
+  <footer>
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      <input type="text" formControlName="title" />
+      <input
+        type="submit"
+        value="Add"
+        class="btn btn-primary btn-block"
+        [disabled]="form.invalid"
+      />
+    </form>
+  </footer>
+</section>
