@@ -7,16 +7,13 @@ import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-organizer',
   templateUrl: './organizer.component.html',
-  styleUrls: ['./organizer.component.scss'],
+  styleUrls: ['./organizer.component.scss']
 })
 export class OrganizerComponent implements OnInit {
   form: FormGroup;
   tasks: Task[] = [];
 
-  constructor(
-    public dateService: DateService,
-    public tasksService: TasksService,
-  ) {}
+  constructor(public dateService: DateService, public tasksService: TasksService) {}
 
   ngOnInit() {
     // Как только меняется дата, мы подгружаем задачи для этого дня
@@ -27,7 +24,7 @@ export class OrganizerComponent implements OnInit {
       });
 
     this.form = new FormGroup({
-      title: new FormControl('', Validators.required),
+      title: new FormControl('', Validators.required)
     });
   }
 
@@ -37,17 +34,24 @@ export class OrganizerComponent implements OnInit {
 
     const task: Task = {
       title,
-      date: this.dateService.date.value.format('DD-MM-YYYY'),
+      date: this.dateService.date.value.format('DD-MM-YYYY')
     };
 
     this.tasksService.create(task).subscribe(
       task => {
         this.form.reset();
-        console.log(task, 'new task');
+        this.tasks.push(task);
       },
-      err => console.error(err),
+      err => console.error(err)
     );
+  }
 
-    console.log(title);
+  remove(task: Task) {
+    this.tasksService.remove(task).subscribe(
+      () => {
+        this.tasks = this.tasks.filter(t => t.id !== task.id);
+      },
+      err => console.error(err)
+    );
   }
 }
